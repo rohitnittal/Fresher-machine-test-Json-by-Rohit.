@@ -1,0 +1,6 @@
+// utils/api.js
+export const fetchContacts = () => {
+  return fetch('https://raw.githubusercontent.com/BitcotDev/fresher-machin-test/main/json/sample.json')
+    .then(response => response.json())
+    .then(data => data.contacts);
+};
