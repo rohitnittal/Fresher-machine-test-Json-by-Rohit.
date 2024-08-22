@@ -1,0 +1,41 @@
+// components/SearchContact.js
+import React, { useState } from 'react';
+
+const SearchContact = ({ contacts }) => {
+  const [searchTerm, setSearchTerm] = useState('');
+  const [searchResults, setSearchResults] = useState([]);
+
+  const handleSearch = (event) => {
+    event.preventDefault();
+    const searchTermLowercase = searchTerm.toLowerCase();
+    const searchResults = contacts.filter(contact => {
+      return (
+        contact.name.toLowerCase().includes(searchTermLowercase) ||
+        contact.email.toLowerCase().includes(searchTermLowercase) ||
+        contact.phone.toLowerCase().includes(searchTermLowercase)
+      );
+    });
+    setSearchResults(searchResults);
+  };
+
+  return (
+    <div>
+      <form onSubmit={handleSearch}>
+        <input
+          type="text"
+          value={searchTerm}
+          onChange={(event) => setSearchTerm(event.target.value)}
+          placeholder="Search for a contact"
+        />
+        <button type="submit">Search</button>
+      </form>
+      <ul>
+        {searchResults.map(contact => (
+          <li key={contact.id}>{contact.name}</li>
+        ))}
+      </ul>
+    </div>
+  );
+};
+
+export default SearchContact;
