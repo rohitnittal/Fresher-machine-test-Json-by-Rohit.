@@ -1,0 +1,49 @@
+// components/EditContact.js
+import React, { useState } from 'react';
+import { validateContact } from '../utils/validation';
+
+const EditContact = ({ contact }) => {
+  const [name, setName] = useState(contact.name);
+  const [email, setEmail] = useState(contact.email);
+  const [phone, setPhone] = useState(contact.phone);
+  const [errors, setErrors] = useState({});
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const updatedContact = { name, email, phone };
+    const errors = validateContact(updatedContact);
+    if (Object.keys(errors).length === 0) {
+      // Update contact in state and display in contact list
+      console.log('Contact updated successfully!');
+    } else {
+      setErrors(errors);
+    }
+  };
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <label>
+        Name:
+        <input type="text" value={name} onChange={(event) => setName(event.target.value)} />
+      </label>
+      <label>
+        Email:
+        <input type="email" value={email} onChange={(event) => setEmail(event.target.value)} />
+      </label>
+      <label>
+        Phone:
+        <input type="text" value={phone} onChange={(event) => setPhone(event.target.value)} />
+      </label>
+      <button type="submit">Update Contact</button>
+      {errors && (
+        <ul>
+          {Object.keys(errors).map((error, index) => (
+            <li key={index}>{errors[error]}</li>
+          ))}
+        </ul>
+      )}
+    </form>
+  );
+};
+
+export default EditContact;
