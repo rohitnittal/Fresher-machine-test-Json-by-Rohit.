@@ -1,0 +1,49 @@
+// components/AddContact.js
+import React, { useState } from 'react';
+import { validateContact } from '../utils/validation';
+
+const AddContact = () => {
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [phone, setPhone] = useState('');
+  const [errors, setErrors] = useState({});
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const contact = { name, email, phone };
+    const errors = validateContact(contact);
+    if (Object.keys(errors).length === 0) {
+      // Add contact to state and display in contact list
+      console.log('Contact added successfully!');
+    } else {
+      setErrors(errors);
+    }
+  };
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <label>
+        Name:
+        <input type="text" value={name} onChange={(event) => setName(event.target.value)} />
+      </label>
+      <label>
+        Email:
+        <input type="email" value={email} onChange={(event) => setEmail(event.target.value)} />
+      </label>
+      <label>
+        Phone:
+        <input type="text" value={phone} onChange={(event) => setPhone(event.target.value)} />
+      </label>
+      <button type="submit">Add Contact</button>
+      {errors && (
+        <ul>
+          {Object.keys(errors).map((error, index) => (
+            <li key={index}>{errors[error]}</li>
+          ))}
+        </ul>
+      )}
+    </form>
+  );
+};
+
+export default AddContact;
